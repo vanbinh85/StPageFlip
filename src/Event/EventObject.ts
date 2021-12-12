@@ -38,7 +38,7 @@ export abstract class EventObject {
     }
 
     /**
-     * Removing all handlers from an event
+     * Removing all handlers from an     event
      *
      * @param {string} event - Event name
      */
@@ -46,7 +46,7 @@ export abstract class EventObject {
         this.events.delete(event);
     }
 
-    protected trigger(eventName: string, app: PageFlip, data: DataType = null): void {
+    public trigger(eventName: string, app: PageFlip, data: DataType = null): void {
         if (!this.events.has(eventName)) return;
 
         for (const callback of this.events.get(eventName)) {

@@ -8,10 +8,25 @@ export const enum SizeType {
     STRETCH = 'stretch',
 }
 
+export interface PdfJsSetting {
+    pdfjsSrc: string;
+    pdfjsWorkerSrc: string;
+    disableAutoFetch: boolean;
+    disableStream: boolean;
+    disableFontFace: boolean;
+    imageResourcesPath: string;
+    cMapUrl: string;
+    cMapPacked: boolean;
+    externalLinkTarget: any;
+}
+
 /**
  * Configuration object
  */
 export interface FlipSetting {
+    /** Number of pages keep in DOM. Default fault and minimum is 6. */
+    pageInDOM: number,
+    totalPages: number,
     /** Page number from which to start viewing */
     startPage: number;
     /** Whether the book will be stretched under the parent element or not */
@@ -57,10 +72,14 @@ export interface FlipSetting {
 
     /** if this value is true, flipping by clicking on the whole book will be locked. Only on corners */
     disableFlipByClick: boolean;
+
+    pdfJsSetting: PdfJsSetting;
 }
 
 export class Settings {
     private _default: FlipSetting = {
+        pageInDOM: 6,
+        totalPages: 0,
         startPage: 0,
         size: SizeType.FIXED,
         width: 0,
@@ -82,6 +101,12 @@ export class Settings {
         useMouseEvents: true,
         showPageCorners: true,
         disableFlipByClick: false,
+        pdfJsSetting: <PdfJsSetting>{
+            disableStream: true,
+            pdfjsSrc: null,
+            pdfjsWorkerSrc: null,
+            disableAutoFetch: true
+        }
     };
 
     /**

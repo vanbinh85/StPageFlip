@@ -12,6 +12,7 @@ export abstract class PageCollection {
     protected readonly app: PageFlip;
     protected readonly render: Render;
     protected readonly isShowCover: boolean;
+    protected destroying: boolean = false;
 
     /** Pages List */
     protected pages: Page[] = [];
@@ -42,7 +43,65 @@ export abstract class PageCollection {
      * Clear pages list
      */
     public destroy(): void {
+        this.destroying = true;
         this.pages = [];
+    }
+
+    /**
+     * Releases memory.
+     */
+    protected removeFromDOM() {
+
+    }
+
+    /**
+     * Detects if a page is within the range of `pageInDOM` from the current view.
+     * @param page page number
+     */
+    protected isPageInRange(page: number): boolean {
+        if(page === 0) {
+            return true;
+        }
+
+        var range = this.getRangeInDOM(page);
+
+        return page >= range[0] && page <= range[1];
+    }
+
+    /**
+     * Gets the range of pages which should be in the DOM.
+     * @param page 
+     */
+    protected getRangeInDOM(page: number): number[] {
+        let left, right, remainingPages, spreadIndex, range, pageInDOM, totalPages;
+        
+        page = page || this.getCurrentPageIndex() || 0;
+        spreadIndex = this.getSpreadIndexByPage(page);
+        range = spreadIndex ? this.getSpread()[spreadIndex] : null;
+        pageInDOM = this.app.getSettings().pageInDOM;
+        totalPages = this.getPageCount();
+
+        if(page < 0 || page >= totalPages) {
+            throw new Error(`Invalid page number: ${page}`);
+        }
+        
+        range[1] = range.length === 2 ? range[1] : range[0];
+
+        if(range[0] >= 0 && range[1] < totalPages) {
+            remainingPages = Math.floor((pageInDOM - 2) / 2);
+            
+            if(totalPages - range[1] > range[0]) {
+                left = Math.min(range[0] - 1, remainingPages);
+                right = remainingPages * 2 - left;
+            } else {
+                right = Math.min(totalPages - range[1], remainingPages);
+                left = remainingPages * 2 - right;
+            }
+        } else {
+            left = right = pageInDOM - 1;
+        }
+
+        return [Math.max(0, range[0] - left), Math.min(this.getPageCount(), range[1] + right)];
     }
 
     /**

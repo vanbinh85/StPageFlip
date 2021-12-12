@@ -43,9 +43,8 @@ export class PageFlip extends EventObject {
      * @param {Object} setting - Configuration object
      */
     constructor(inBlock: HTMLElement, setting: Partial<FlipSetting>) {
-        super();
-
-        this.setting = new Settings().getSettings(setting);
+        super(); 
+        this.setting = new Settings().getSettings(<any>setting);
         this.block = inBlock;
     }
 
@@ -397,3 +396,5 @@ export class PageFlip extends EventObject {
         }
     }
 }
+
+
