@@ -325,7 +325,7 @@ export abstract class PageCollection {
     /**
      * Show current spread
      */
-    private showSpread(): void {
+    protected showSpread(): void {
         const spread = this.getSpread()[this.currentSpreadIndex];
 
         if (spread.length === 2) {

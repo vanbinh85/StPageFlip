@@ -69,7 +69,7 @@ export class PDFPageCollection extends PageCollection {
         super.destroy();
     }
     
-    public show(pageNum: number = null) {
+    public show(pageNum: number|null = null) {
         if (pageNum === null) pageNum = this.currentPageIndex;
 
         if (pageNum < 0 || pageNum >= this.pages.length) return;
@@ -98,7 +98,7 @@ export class PDFPageCollection extends PageCollection {
     /**
      * Show current spread
      */
-     private showSpread(): void {
+     protected showSpread(): void {
         const spread = this.getSpread()[this.currentSpreadIndex];
 
         if (spread.length === 2) {
@@ -108,13 +108,13 @@ export class PDFPageCollection extends PageCollection {
             if (this.render.getOrientation() === Orientation.LANDSCAPE) {
                 if (spread[0] === this.pages.length - 1) {
                     this.render.setLeftPage(this.pages[spread[0]]);
-                    this.render.setRightPage(null);
+                    this.render.setRightPage(null!);
                 } else {
-                    this.render.setLeftPage(null);
+                    this.render.setLeftPage(null!);
                     this.render.setRightPage(this.pages[spread[0]]);
                 }
             } else {
-                this.render.setLeftPage(null);
+                this.render.setLeftPage(null!);
                 this.render.setRightPage(this.pages[spread[0]]);
             }
         }
