@@ -12,10 +12,10 @@ import { FlipDirection } from '../Flip/Flip';
  */
 export class PDFPage extends Page {
     private readonly element: HTMLElement;
-    private copiedElement: HTMLElement = null;
+    private copiedElement: HTMLElement;
     private readonly distElement: HTMLElement;
 
-    private temporaryCopy: Page = null;
+    private temporaryCopy: Page;
 
     private isLoad = false;
     private pdfPage: any;
