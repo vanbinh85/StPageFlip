@@ -11,9 +11,9 @@ import { FlipDirection } from '../Flip/Flip';
  * Class representing a book page as an image on Canvas
  */
 export class PDFPage extends Page {
-    private readonly element: HTMLElement;
+    private element: HTMLElement;
     private copiedElement: HTMLElement;
-    private readonly distElement: HTMLElement;
+    private distElement: HTMLElement;
 
     private temporaryCopy: Page;
 

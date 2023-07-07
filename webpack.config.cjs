@@ -2,17 +2,23 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require("copy-webpack-plugin");
 
+
+
 module.exports = {
     entry: './src/PageFlip.ts',
     output: {
         path: path.resolve(__dirname, 'dist/js'),
-        filename: 'pageFlip.browser.js',
+        filename: 'page-flip.browser.js',
         library: ['St']
     },
     devtool: 'inline-source-map',
     devServer: {
-        contentBase: path.join(__dirname, 'dist')//,
-        //hot: true
+        compress: true,
+        port: 9000,
+        hot: true,
+        static: {
+            directory: path.join(__dirname, 'sample')
+        }
     },
     mode: 'development',
     module: {
@@ -33,10 +39,10 @@ module.exports = {
         ],
     },
     plugins: [
-        /*new HtmlWebpackPlugin({
+        new HtmlWebpackPlugin({
             title: 'Custom template',
-            template: 'src/index.html'
-        })*/ 
+            template: 'sample/index.html'
+        })
         /*new CopyPlugin({
             patterns: [
               { from: path.resolve(__dirname, 'node_modules/pdfjs-dist/build/*.*'), to: path.resolve(__dirname, 'dist/js/pdfjs-dist/scripts/') },
